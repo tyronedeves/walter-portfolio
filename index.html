@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Walter's portfolio</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+            background-color: #0a0a0a;
+            color: #e5e5e5;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .skill-card {
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .skill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+        
+        .project-card {
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+        
+        .social-icon {
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            transform: translateY(-3px);
+            color: #8b5cf6;
+        }
+        
+        .contact-input {
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            color: #e5e5e5;
+            transition: border-color 0.3s ease;
+        }
+        
+        .contact-input:focus {
+            border-color: #8b5cf6;
+            outline: none;
+        }
+        
+        .custom-shape-divider {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+        }
+        
+        .skill-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        #back-to-top {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: #8b5cf6;
+            color: white;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+        
+        #back-to-top:hover {
+            background-color: #7c3aed;
+        }
+        
+        .section-heading {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+        
+        .section-heading::after {
+            content: "";
+            position: absolute;
+            width: 60%;
+            height: 4px;
+            bottom: -10px;
+            left: 0;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            border-radius: 2px;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-fadeIn {
+            animation: fadeIn 1s ease forwards;
+        }
+        
+        .experience-timeline {
+            position: relative;
+        }
+        
+        .experience-timeline::before {
+            content: '';
+            position: absolute;
+            width: 3px;
+            background: linear-gradient(180deg, #3b82f6, #8b5cf6);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            border-radius: 50%;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 15px;
+        }
+        
+        .timeline-content {
+            width: 45%;
+            padding: 1.5rem;
+            background-color: #1a1a1a;
+            border-radius: 8px;
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-left: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .experience-timeline::before {
+                left: 30px;
+            }
+            
+            .timeline-dot {
+                left: 30px;
+                transform: none;
+            }
+            
+            .timeline-content {
+                width: calc(100% - 70px);
+                margin-left: 70px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="fixed w-full bg-black bg-opacity-80 backdrop-filter backdrop-blur-lg z-50">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="#" class="text-2xl font-bold gradient-text">Walter Enebeli-uzor</a>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#about" class="nav-link text-white hover:text-purple-400 transition-colors">About</a>
+                    <a href="#skills" class="nav-link text-white hover:text-purple-400 transition-colors">Skills</a>
+                    <a href="#projects" class="nav-link text-white hover:text-purple-400 transition-colors">Projects</a>
+                    <a href="#experience" class="nav-link text-white hover:text-purple-400 transition-colors">Experience</a>
+                    <a href="#contact" class="nav-link text-white hover:text-purple-400 transition-colors">Contact</a>
+                </div>
+                <button id="menu-toggle" class="md:hidden text-white focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-black bg-opacity-90 backdrop-filter backdrop-blur-lg">
+            <div class="container mx-auto px-6 py-4 flex flex-col space-y-4">
+                <a href="#about" class="text-white hover:text-purple-400 transition-colors">About</a>
+                <a href="#skills" class="text-white hover:text-purple-400 transition-colors">Skills</a>
+                <a href="#projects" class="text-white hover:text-purple-400 transition-colors">Projects</a>
+                <a href="#experience" class="text-white hover:text-purple-400 transition-colors">Experience</a>
+                <a href="#contact" class="text-white hover:text-purple-400 transition-colors">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="min-h-screen flex items-center relative overflow-hidden">
+        <div class="container mx-auto px-6 pt-32 pb-16">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 animate-fadeIn" style="animation-delay: 0.2s;">
+                    <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                        Hello, I'm <span class="gradient-text">Walter Enebeli-uzor</span>
+                    </h1>
+                    <p class="text-xl md:text-2xl mb-8 text-gray-300">
+                        Frontend Developer specializing in creating beautiful and functional web experiences.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#contact" class="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium rounded-lg hover:opacity-90 transition-opacity">
+                            Contact Me
+                        </a>
+                        <a href="#projects" class="px-8 py-3 bg-gray-800 text-white font-medium rounded-lg hover:bg-gray-700 transition-colors">
+                            See My Work
+                        </a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 mt-12 md:mt-0 flex justify-center animate-fadeIn" style="animation-delay: 0.4s;">
+                    <img src="images/new.png" alt="Your Name" class="rounded-full w-64 h-64 md:w-80 md:h-80 object-cover border-4 border-purple-500">
+                </div>
+            </div>
+        </div>
+        <div class="custom-shape-divider">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="#0F0F0F"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 bg-gray-900">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold mb-12 section-heading">About Me</h2>
+            <div class="flex flex-col md:flex-row">
+                <div class="md:w-1/2 mb-8 md:mb-0">
+                    <p class="text-lg text-gray-300 mb-6">
+                        I'm a passionate Frontend Developer with expertise in creating responsive and 
+                        intuitive web interfaces. My journey in web development started with a curiosity 
+                        for how things work on the internet, which evolved into a professional career where 
+                        I blend creativity with technical prowess.
+                    </p>
+                    <p class="text-lg text-gray-300 mb-6">
+                        With a strong foundation in front-end technologies, I specialize in 
+                        building seamless user experiences that not only look great but function flawlessly. 
+                        I'm particularly interested in creating responsive and accessible web solutions that solve real-world problems.
+                    </p>
+                    <p class="text-lg text-gray-300">
+                        When I'm not coding, you can find me exploring new technologies, contributing to open-source 
+                        projects, or sharing my knowledge with the developer community.
+                    </p>
+                </div>
+                <div class="md:w-1/2 md:pl-12">
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                        <h3 class="text-2xl font-semibold mb-4 gradient-text">Quick Facts</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <i class="fas fa-map-marker-alt text-purple-500 mt-1 mr-3"></i>
+                                <span>Location: Delta State, Nigeria</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-graduation-cap text-purple-500 mt-1 mr-3"></i>
+                                <span>Education: Your Degree in Computer Science</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-language text-purple-500 mt-1 mr-3"></i>
+                                <span>Languages: English (fluent), Any other languages you speak</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-rocket text-purple-500 mt-1 mr-3"></i>
+                                <span>Experience: X years in web development</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-heart text-purple-500 mt-1 mr-3"></i>
+                                <span>Interests: Technology, Design, Any other interests</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-24 bg-black">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold mb-12 section-heading">My Skills</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="skill-card">
+                    <i class="fab fa-html5 skill-icon"></i>
+                    <h3 class="text-xl font-semibold mb-2">HTML</h3>
+                    <p class="text-gray-400">
+                        Expert in semantic HTML5 markup, accessibility practices, and structuring web content effectively.
+                    </p>
+                </div>
+                <div class="skill-card">
+                    <i class="fab fa-css3-alt skill-icon"></i>
+                    <h3 class="text-xl font-semibold mb-2">CSS</h3>
+                    <p class="text-gray-400">
+                        Proficient in CSS3, including animations, transitions, flexbox, and CSS Grid for responsive layouts.
+                    </p>
+                </div>
+                <div class="skill-card">
+                    <i class="fab fa-js skill-icon"></i>
+                    <h3 class="text-xl font-semibold mb-2">JavaScript</h3>
+                    <p class="text-gray-400">
+                        Strong command of modern JavaScript (ES6+), DOM manipulation, and asynchronous programming.
+                    </p>
+                </div>
+                <div class="skill-card">
+                    <i class="fab fa-python skill-icon"></i>
+                    <h3 class="text-xl font-semibold mb-2">Python</h3>
+                    <p class="text-gray-400">
+                        Experienced in Python development for web applications, data processing, and automation.
+                    </p>
+                </div>
+                <div class="skill-card">
+                    <i class="fab fa-react skill-icon"></i>
+                    <h3 class="text-xl font-semibold mb-2">React Native</h3>
+                    <p class="text-gray-400">
+                        Skilled in building cross-platform mobile applications with React Native and related ecosystem.
+                    </p>
+                </div>
+                <div class="skill-card">
+                    <i class="fab fa-bootstrap skill-icon"></i>
+                    <h3 class="text-xl font-semibold mb-2">Bootstrap</h3>
+                    <p class="text-gray-400">
+                        Expert in leveraging Bootstrap framework for rapid, responsive UI development.
+                    </p>
+                </div>
+                <div class="skill-card">
+                    <i class="fab fa-css3 skill-icon"></i>
+                    <h3 class="text-xl font-semibold mb-2">Tailwind CSS</h3>
+                    <p class="text-gray-400">
+                        Proficient in utility-first CSS with Tailwind for custom, responsive designs.
+                    </p>
+                </div>
+                <div class="skill-card">
+                    <i class="fab fa-git-alt skill-icon"></i>
+                    <h3 class="text-xl font-semibold mb-2">Git</h3>
+                    <p class="text-gray-400">
+                        Experienced in version control with Git for collaborative development and project management.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-24 bg-gray-900">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold mb-12 section-heading">Featured Projects</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1 -->
+                <div class="project-card">
+                    <div class="relative overflow-hidden" style="padding-top: 56.25%;">
+                        <img src="/images/Screenshot 2025-05-01 at 08.33.49.png" alt="Project 1" class="absolute top-0 left-0 w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Abi lifestyle records </h3>
+                        <p class="text-gray-400 mb-4">
+                            A responsive web site built with html, css and JavaScript for a record label.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-3 py-1 bg-blue-900 text-blue-200 rounded-full text-sm">Html</span>
+                            <span class="px-3 py-1 bg-blue-900 text-blue-200 rounded-full text-sm">css</span>
+                            <span class="px-3 py-1 bg-blue-900 text-blue-200 rounded-full text-sm">JavaScript</span>
+                        </div>
+                        <div class="flex space-x-3">
+                            <a href="https://github.com/tyronedeves/update-to-abilifestyle/tree/main/update" target="_blank class="text-purple-400 hover:text-purple-300 transition-colors">
+                                <i class="fab fa-github mr-1"></i> View Code
+                            </a>
+                            <a href="https://abilifestyle.com/" target="_blank class="text-purple-400 hover:text-purple-300 transition-colors">
+                                <i class="fas fa-external-link-alt mr-1"></i> Live Demo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card">
+                    <div class="relative overflow-hidden" style="padding-top: 56.25%;">
+                        <img src="images/Simulator Screenshot - iPhone 16 Pro Max - 2025-05-01 at 09.33.33.png" alt="Project 2" class="absolute top-0 left-0 w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Mobile Notes App </h3>
+                        <p class="text-gray-400 mb-4">
+                            A Mobile application developed with react native and appwrite to manage authentication and store user data
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-3 py-1 bg-blue-900 text-blue-200 rounded-full text-sm">React Native </span>
+                            <span class="px-3 py-1 bg-blue-900 text-blue-200 rounded-full text-sm">AppWrite</span>
+                            <span class="px-3 py-1 bg-blue-900 text-blue-200 rounded-full text-sm">Jsx</span>
+                        </div>
+                        <div class="flex space-x-3">
+                            <a href="https://github.com/tyronedeves/notes-app" class="text-purple-400 hover:text-purple-300 transition-colors">
+                                <i class="fab fa-github mr-1"></i> View Code
+                            </a>
+                            <a href="https://notes-app-tyrone.expo.app" target="_blank class="text-purple-400 hover:text-purple-300 transition-colors">
+                                <i class="fas fa-external-link-alt mr-1"></i> App Demo 
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card">
+                    <div class="relative overflow-hidden" style="padding-top: 56.25%;">
+                        <img src="images/TASK.png" alt="Project 3" class="absolute top-0 left-0 w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Task management systems </h3>
+                        <p class="text-gray-400 mb-4">
+                            A task management web app used for organizing  tasks and todo lits.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-3 py-1 bg-blue-900 text-blue-200 rounded-full text-sm">Html</span>
+                            <span class="px-3 py-1 bg-blue-900 text-blue-200 rounded-full text-sm">CSS</span>
+                            <span class="px-3 py-1 bg-blue-900 text-blue-200 rounded-full text-sm">JavaScript</span>
+                        </div>
+                        <div class="flex space-x-3">
+                            <a href="#" class="text-purple-400 hover:text-purple-300 transition-colors">
+                                <i class="fab fa-github mr-1"></i> View Code
+                            </a>
+                            <a href="#" class="text-purple-400 hover:text-purple-300 transition-colors">
+                                <i class="fas fa-external-link-alt mr-1"></i> Live Demo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="text-center mt-12">
+                <a href="#" class="inline-block px-8 py-3 bg-gray-800 text-white font-medium rounded-lg hover:bg-gray-700 transition-colors">
+                    View All Projects <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div> -->
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-24 bg-black">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold mb-12 section-heading">Experience</h2>
+            <div class="experience-timeline mt-16">
+                <!-- Experience 1 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3 class="text-xl font-semibold gradient-text"> Intern Web Developer</h3>
+                        <p class="text-purple-400 mb-2">Pillar oil limited • 2023</p>
+                        <p class="text-gray-300">
+                            Led the front-end development team in creating responsive web applications. 
+                            Implemented modern JavaScript frameworks and optimized website performance.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Experience 2 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3 class="text-xl font-semibold gradient-text">Full Stack Developer</h3>
+                        <p class="text-purple-400 mb-2">Ikolo Educational carrer consult  • 2024 </p>
+                        <p class="text-gray-300">
+                            Developed and maintained web applications using React, Node.js, and Python.
+                            Collaborated with design teams to implement user-friendly interfaces.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Experience 3 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3 class="text-xl font-semibold gradient-text">Freelance Developer</h3>
+                        <p class="text-purple-400 mb-2">  • 2022 - till date</p>
+                        <p class="text-gray-300">
+                            Build websites and mobile applications, using all my mentioned skills.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 bg-gray-900">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold mb-12 section-heading">Get In Touch</h2>
+            <div class="flex flex-col md:flex-row">
+                <div class="md:w-1/2 mb-12 md:mb-0">
+                    <p class="text-lg text-gray-300 mb-8">
+                        I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision. 
+                        Feel free to reach out using the contact form or through my social media profiles.
+                    </p>
+                    <div class="flex flex-col space-y-4">
+                        <div class="flex items-center">
+                            <i class="fas fa-envelope text-purple-500 mr-4 text-xl"></i>
+                            <span>walterenebeliuzor@gmail.com</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-map-marker-alt text-purple-500 mr-4 text-xl"></i>
+                            <span>Delta state, Nigeria</span>
+                        </div>
+                        <div class="flex space-x-6 mt-6">
+                            <a href="https://github.com/tyronedeves" class="social-icon text-2xl text-gray-300 hover:text-purple-500">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="#" class="social-icon text-2xl text-gray-300 hover:text-purple-500">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="https://x.com/imperialtyrone" class="social-icon text-2xl text-gray-300 hover:text-purple-500">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="social-icon text-2xl text-gray-300 hover:text-purple-500">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/2 md:pl-12">
+                    <div class="space-y-6">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-300 mb-2">Name</label>
+                            <input type="text" id="name" class="contact-input w-full px-4 py-3 rounded-lg" placeholder="Your Name">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-300 mb-2">Email</label>
+                            <input type="email" id="email" class="contact-input w-full px-4 py-3 rounded-lg" placeholder="Your Email">
+                        </div>
+                        <div>
+                            <label for="subject" class="block text-sm font-medium text-gray-300 mb-2">Subject</label>
+                            <input type="text" id="subject" class="contact-input w-full px-4 py-3 rounded-lg" placeholder="Subject">
+                        </div>
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-gray-300 mb-2">Message</label>
+                            <textarea id="message" rows="5" class="contact-input w-full px-4 py-3 rounded-lg" placeholder="Your Message"></textarea>
+                        </div>
+                        <button id="sendEmailBtn" class="w-full px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium rounded-lg hover:opacity-90 transition-opacity">
+                            Send Message now
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-8">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 mb-4 md:mb-0">
+                    © 2025 Walter Enebeli-uzor. All rights reserved.
+                </p>
+    </div>
+    </div>
+    </footer>
+</body>
+<script>
+    document.getElementById('sendEmailBtn').addEventListener('click', function() {
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const subject = document.getElementById('subject').value;
+        const message = document.getElementById('message').value;
+        
+        // Basic validation
+        if (!name || !email || !subject || !message) {
+            alert('Please fill out all fields');
+            return;
+        }
+        
+        // Create mailto link with form data
+        const mailtoLink = `mailto:walterenebeliuzor@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`)}`;
+        
+        // Open email client
+        window.location.href = mailtoLink;
+    });
+
+    // Mobile menu toggle functionality
+document.getElementById('menu-toggle').addEventListener('click', function() {
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileMenu.classList.toggle('hidden');
+});
+
+// Close mobile menu when a link is clicked
+document.querySelectorAll('#mobile-menu a').forEach(link => {
+    link.addEventListener('click', function() {
+        document.getElementById('mobile-menu').classList.add('hidden');
+    });
+});
+
+document.getElementById('sendEmailBtn').addEventListener('click', function() {
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const subject = document.getElementById('subject').value;
+        const message = document.getElementById('message').value;
+        
+        // Basic validation
+        if (!name || !email || !subject || !message) {
+            alert('Please fill out all fields');
+            return;
+        }
+        
+        // Create mailto link with form data
+        const mailtoLink = `mailto:walterenebeliuzor@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`)}`;
+        
+        // Open email client
+        window.location.href = mailtoLink;
+    });
+</script>
+</html>
